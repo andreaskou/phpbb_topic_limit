@@ -126,6 +126,7 @@ class usertopiclimit_module
 
             foreach ($rules as $rule)
             {
+                $template->assign_block_vars('andreask_utl_rules', $rule);
                 $forum_ids = json_decode($rule['utl_rule_forum_ids'], true);
                 $sql = 'SELECT forum_name FROM ' . FORUMS_TABLE . ' WHERE ' . $db->sql_in_set('forum_id', $forum_ids);
                 $names = $db->sql_query($sql);
@@ -133,11 +134,8 @@ class usertopiclimit_module
                 foreach ($forum_names as $forum_name)
                 {
                     $fn[] = $forum_name['forum_name'];
+                    $template->assign_block_vars('andreask_utl_rules.utl_forum_names', $fn);
                 }
-                // $rule = array_merge($rule, array('utl_forum_names' => $fn));
-                var_dump($fn);
-                $template->assign_block_vars('andreask_utl_rules', $rule);
-                $template->assign_block_vars('andreask_utl_rules.utl_forum_names', $fn);
                 unset($fn);
                 unset($forum_names);
             }
