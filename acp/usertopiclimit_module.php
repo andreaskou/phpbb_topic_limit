@@ -133,7 +133,6 @@ class usertopiclimit_module
                 $forum_names = $db->sql_fetchrowset($names);
                 foreach ($forum_names as $forum_name)
                 {
-                    
                     $fn[] = $forum_name['forum_name'];
                     $template->assign_block_vars('andreask_utl_rules.utl_forum_names', $fn);
                 }
