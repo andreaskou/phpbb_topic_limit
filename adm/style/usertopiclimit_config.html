@@ -1,0 +1,150 @@
+{% include 'overall_header.html' %}
+
+{% if S_UTL_ADD || S_UTL_EDIT %}
+<h1>{% if S_UTL_ADD %}{{ lang('ANDREASK_ADD_RULE') }} {% elseif S_UTL_EDIT %} {{ lang(('ANDREASK_EDIT_RULE')) }}{% endif %}</h1>
+<form action="{U_ACTION}" method="post" id="andreask_rules_page" name="andreask_rules_page">
+    <fieldset>
+        <dl>
+            <dt>
+                <label for="andreask_utl_name">{{ lang('ANDREASK_UTL_NAME') }} {{ lang('COLON') }}</label>
+                <br><span>{{ lang('ANDREASK_UTL_NAME_EXPLAIN')}}</span>
+            </dt>
+            <dd><input type="text" name="andreask_utl_name" value="{ANDREASK_UTL_RULE_NAME}" required></dd>
+        </dl>
+        <dl>
+            <dt>
+                <label for="andreask_utl_days">{{ lang('ANDREASK_UTL_DAYS') }} {{ lang('COLON') }}</label>
+                <br><span>{{ lang('ANDREASK_UTL_DAYS_EXPLAIN') }}</span>
+            </dt>
+            <dd><input type="number" min="0" name="andreask_utl_days" value="{ANDREASK_UTL_RULE_DAYS}"> &nbsp;
+                <select class="" name="andreask_utl_days_option">
+                    <option value="1" {% if ANDREASK_UTL_RULE_DAYS_OPTION == 1 %}selected="selected"{% endif %}>{{ lang('HAS_NOT_LOGGEDIN') }}</option>
+                    <option value="2" {% if ANDREASK_UTL_RULE_DAYS_OPTION == 2 %}selected="selected"{% endif %}>{{ lang('HAS_NOT_POSTED') }}</option>
+                    <option value="3" {% if ANDREASK_UTL_RULE_DAYS_OPTION == 3 %}selected="selected"{% endif %}>{{ lang('HAS_POSTED') }}</option>
+                </select>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <label for="andreask_utl_posts">{{ lang('ANDREASK_UTL_POSTS') }} {{ lang('COLON') }}</label>
+                <br><span>{{ lang('ANDREASK_UTL_POSTS_EXPLAIN') }}</span>
+            </dt>
+            <dd><input type="number" min="0" name="andreask_utl_posts" value="{ANDREASK_UTL_RULES_POSTS}"> &nbsp;
+                <select class="" name="andreask_utl_posts_option">
+                    <option value="1" {% if ANDREASK_UTL_RULES_POSTS_OPTION == 1 %}selected="selected"{% endif %}>{{ lang('MAX_AMOUNT_POSTS') }}</option>
+                    <option value="2" {% if ANDREASK_UTL_RULES_POSTS_OPTION == 2 %}selected="selected"{% endif %}>{{ lang('OPTION2') }}</option>
+                    <option value="3" {% if ANDREASK_UTL_RULES_POSTS_OPTION == 3 %}selected="selected"{% endif %}>{{ lang('OPTION3') }}</option>
+                </select>
+            </dd>
+        </dl>
+        <dl>
+            <dt>
+                <label for="andreask_utl_max_posts">{{ lang('ANDREASK_UTL_MAX_POSTS') }} {{ lang('COLON') }}</label>
+                <br><span>{{ lang('ANDREASK_UTL_MAX_POSTS_EXPLAIN') }}</span>
+            </dt>
+            <dd><input type="number" min="0" name="andreask_utl_max_posts" value="{ANDREASK_UTL_RULES_MAX_POSTS}"> &nbsp;
+                <select class="" name="andreask_utl_max_posts_option">
+                    <option value="1" {% if ANDREASK_UTL_RULES_MAX_POSTS_OPTION == 1 %}selected="selected"{% endif %}>{{ lang('OPTION1') }}</option>
+                    <option value="2" {% if ANDREASK_UTL_RULES_MAX_POSTS_OPTION == 2 %}selected="selected"{% endif %}>{{ lang('OPTION2') }}</option>
+                    <option value="3" {% if ANDREASK_UTL_RULES_MAX_POSTS_OPTION == 3 %}selected="selected"{% endif %}>{{ lang('OPTION3') }}</option>
+                </select>
+            </dd>
+        </dl>
+
+    </fieldset>
+    <fieldset>
+            <legend>{L_LOOK_UP_FORUM}</legend>
+            <p>{L_LOOK_UP_FORUMS_EXPLAIN}</p>
+    <dl>
+            <dt><label for="forum">{L_LOOK_UP_FORUM}{L_COLON}</label></dt>
+            <dd><select id="forum" name="forum_id[]"<!-- IF S_FORUM_MULTIPLE --> multiple="multiple"<!-- ENDIF --> size="10">{S_FORUM_OPTIONS}</select></dd>
+            <!-- IF S_FORUM_ALL --><dd><label><input type="checkbox" class="radio" name="all_forums" value="1" /> {L_ALL_FORUMS}</label></dd><!-- ENDIF -->
+    </dl>
+    </fieldset>
+    <fieldset>
+        <p class="submit-buttons">
+            {{ ANDREASK_UTL_DAYS_OPTION }}
+            <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+            <input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+        </p>
+
+            <p class="quick">
+                <input type="hidden" name="action" value="{S_UTL_MODE}" />
+                <input type="hidden" name="rule_id" value="{S_RULE_ID}" />
+                {S_HIDDEN_FIELDS}
+                {S_FORM_TOKEN}
+            </p>
+    </fieldset>
+</form>
+
+{% else %}
+<h1>{{ lang('SETTINGS') }}</h1>
+
+<form id="enable_disable_upl" method="post" action="{U_ACTION}">
+    <fieldset>
+        <dl>
+            <dt><label for="andreask_utl">{{ lang('ACP_USERTOPICLIMIT_ENABLE') }}</label></dt>
+            <dd><input type="radio" class="radio" name="andreask_utl" value="1" {% if ANDREASK_UTL_ACTIVE %} checked="checked" {% endif %}/> {L_YES} &nbsp;
+                <input type="radio" class="radio" name="andreask_utl" value="0" {% if not ANDREASK_UTL_ACTIVE %} checked="checked" {% endif %}/> {L_NO}</dd>
+        </dl>
+
+        <p class="submit-buttons">
+            <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+            <input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+        </p>
+
+        {S_FORM_TOKEN}
+    </fieldset>
+</form>
+
+<form id="andreask_utl_list" method="post" action="{U_ACTION}">
+{% if PAGINATION %}
+<div class="pagination">
+    {% include PAGINATION %}
+</div>
+{% endif %}
+<table class="table zebra-table">
+<thead>
+    <tr>
+        <th>{{ lang('NAME') }}</th>
+        <th>{{ lang('DAYS') }}</th>
+        <th>{{ lang('DAYS_OPTION') }}</th>
+        <th>{{ lang('POSTS') }}</th>
+        <th>{{ lang('POSTS_OPTION') }}</th>
+        <th>{{ lang('MAX_POSTS') }}</th>
+        <th>{{ lang('MAX_POSTS_OPTION') }}</th>
+        <th>{{ lang('FORUMS') }}</th>
+        <th>{{ lang('DATE') }}</th>
+        <th>{{ lang('ACTIVE') }}</th>
+    </tr>
+</thead>
+<tbody>
+    {% for rule in andreask_utl_rules %}
+    <tr>
+    <td><a href="{{ rule.S_EDIT_URL }}">{{ rule.utl_rule_name }}</a></td>
+    <td>{{ rule.utl_rule_amount_of_days }}</td>
+    <td>{{ rule.utl_rule_amount_of_days_opt }}</td>
+    <td>{{ rule.utl_rule_amount_of_posts }}</td>
+    <td>{{ rule.utl_rule_amount_of_posts_opt }}</td>
+    <td>{{ rule.utl_rule_max_posts }}</td>
+    <td>{{ rule.utl_rule_max_posts_opt }}</td>
+    <td>{% for forum in rule.utl_forum_names %}{{ forum|length }}</br>{% endfor %}</td>
+    <td>{{ rule.utl_rule_created_date }}</td>
+    <td>{{ rule.utl_rule_active }}</td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="6" style="text-align: center;">{{ lang('ANDREASK_NOTHING_YET')}}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+<fieldset class="quick">
+    <input class="button2" type="submit" name="addrule" value="{{ lang('ANDREASK_ADD_RULE') }}">
+    <input type="hidden" name="action" value="add" />
+    {{ S_FORM_TOKEN }}
+</fieldset>
+</form>
+{{ S_EDIT_URL }}
+{% endif %}
+{% include 'overall_footer.html' %}
