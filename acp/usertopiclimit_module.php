@@ -131,29 +131,13 @@ class usertopiclimit_module
                 $sql = 'SELECT forum_name FROM ' . FORUMS_TABLE . ' WHERE ' . $db->sql_in_set('forum_id', $forum_ids);
                 $names = $db->sql_query($sql);
                 $forum_names = $db->sql_fetchrowset($names);
-                foreach ($forum_names as $forum_name)
+                foreach ($forum_names as $name)
                 {
-                    $fn[] = $forum_name['forum_name'];
-                    $template->assign_block_vars('andreask_utl_rules.utl_forum_names', $fn);
+                	$template->assign_block_vars('andreask_utl_rules.utl_forum_names', ['FORUM_NAME' => $name['forum_name']]);
                 }
                 unset($fn);
-                unset($forum_names);
+                unset($name);
             }
-            // while ($rule = $db->sql_fetchrow($list_rules))
-            // {
-            //     $forums = json_decode($rule['utl_rule_forum_ids'], true);
-            //     $sql = 'SELECT forum_name FROM ' . FORUMS_TABLE . ' WHERE ' . $db->sql_in_set('forum_id', $forums);
-            //     $res = $db->sql_query($sql);
-            //     $forum_names = $db->sql_fetchrowset($res);
-            //     foreach ($forum_names as $name)
-            //     {
-            //         $clean[] = $name['forum_name'];
-            //     }
-            //     unset($clean);
-            //     $db->sql_freeresult($res);
-            //     $template->assign_block_vars('andreask_utl_rules', $rule);
-            // }
-            // $db->sql_freeresult($list_rules);
         }
     }
 

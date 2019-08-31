@@ -128,7 +128,8 @@
     <td>{{ rule.utl_rule_amount_of_posts_opt }}</td>
     <td>{{ rule.utl_rule_max_posts }}</td>
     <td>{{ rule.utl_rule_max_posts_opt }}</td>
-    <td>{% for key, forum in rule.utl_forum_names|slice(0, 3) %}{{ forum[key] }}{% if forum[key]|last %}... {% else %}, {% endif %}{% endfor %}</td>
+    <!-- <td>{% for key, forum in rule.utl_forum_names|slice(0, 3) %}{{ forum[key] }}{% if forum[key]|last %}... {% else %}, {% endif %}{% endfor %}</td> -->
+    <td>{% for forum in rule.utl_forum_names|slice(0,3) %}{{ forum.FORUM_NAME }}{% if forum.FORUM_NAME|last %}... {% else %}, {% endif %}{% endfor %}</td>
     <td>{{ rule.utl_rule_created_date|date() }}</td>
     <td>{{ rule.utl_rule_active }}</td>
     </tr>
